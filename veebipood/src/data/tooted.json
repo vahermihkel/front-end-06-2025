@@ -1,0 +1,11 @@
+[
+  {"nimi": "Nobe", "hind": 25000, "aktiivne": true, "pilt": "https://i0.wp.com/accelerista.com/wp-content/uploads/2018/06/nobe.jpg"},
+  {"nimi": "BMW", "hind": 35000, "aktiivne": true, "pilt": "https://content.homenetiol.com/2000292/2224213/0x0/1761c1c23f924c04996c7f0d5ac18342.jpg"},
+  {"nimi": "Tesla", "hind": 75000, "aktiivne": false, "pilt": "https://a.storyblok.com/f/197805/7a2484c876/how-to-create-a-car-newblogcover.png"},
+  {"nimi": "Audi", "hind": 45000, "aktiivne": true, "pilt": "https://images.dealer.com/ddc/vehicles/2025/Audi/A4/Sedan/still/front-left/front-left-320-en_US.jpg"},
+  {"nimi": "Volvo", "hind": 55000, "aktiivne": true, "pilt": "https://www.topgear.com/sites/default/files/cars-car/image/2023/03/1%20Volvo%20XC90.jpg?w=1280&h=720"},
+  {"nimi": "Saab", "hind": 30000, "aktiivne": false, "pilt": "https://a.storyblok.com/f/197805/7a2484c876/how-to-create-a-car-newblogcover.png"},
+  {"nimi": "Mercedes", "hind": 85000, "aktiivne": true, "pilt": "https://www.mercedes-benz.co.za/content/dam/hq/passengercars/cars/cla/cla-coupe-c118-fl-pi/modeloverview/02-2023/images/mercedes-benz-cla-coupe-c118-modeloverview-696x392-02-2023.png"},
+  {"nimi": "Lamborghini", "hind": 125000, "aktiivne": true, "pilt": "https://content.presspage.com/uploads/2805/8f8b1a6a-4f30-4e0d-a9e0-f875bbf92de9/1920_lamborghinitemerario1.jpg?10000"},
+  {"nimi": "Aston Martin", "hind": 95000, "aktiivne": true, "pilt": "https://www.astonmartin.com/-/media/aston-martin/imported/past-models/db9/jpg-medium-db9-1.jpg"}
+]
