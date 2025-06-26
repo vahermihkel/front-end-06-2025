@@ -1,11 +1,39 @@
 import { ToastContainer, toast } from 'react-toastify';
-import productsFromFile from "../../data/products.json"
-import { useState } from 'react';
+// import productsFromFile from "../../data/products.json"
+import { useEffect, useState } from 'react';
 
 function AddProduct() {
   const [product, setProduct] = useState({});
+  const categoriesUrl = import.meta.env.VITE_CATEGORIES_DB_URL;
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const productsUrl = import.meta.env.VITE_PRODUCTS_DB_URL;
+  const [dbProducts, setDbProducts] = useState([]);
+
+  useEffect(() => {
+    fetch(productsUrl)
+      .then(res => res.json())
+      .then(json => {
+        setDbProducts(json || []);
+        setLoading(false);
+      })
+  }, [productsUrl]);
+
+  useEffect(() => {
+    fetch(categoriesUrl)
+      .then(res => res.json())
+      .then(json => {
+        setCategories(json || []);
+        setLoading(false);
+      })
+  }, [categoriesUrl]);
 
   const addProduct = () => {
+
+    if (product.id === undefined || product.id === "") {
+      toast.error("ID puudu!");
+      return;
+    }
 
     if (product.title === undefined || product.title === "") {
       toast.error("Nimi puudu!");
@@ -42,13 +70,23 @@ function AddProduct() {
       return;
     }
 
-    toast.success("Toode lisatud: " + product.title);
-    productsFromFile.push(product);
-    
+    dbProducts.push(product);
+    fetch(productsUrl, {method: "PUT", body: JSON.stringify(dbProducts)})
+      .then(res => res.json())
+      .then(() => {
+        toast.success("Toode lisatud: " + product.title);
+      })
   }
+
+  if(loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div>
       <div>{JSON.stringify(product)}</div>
+      <label>Toote ID</label> <br />
+      <input onChange={(e) => setProduct({...product, "id":e.target.value})} type="number" /> <br />
       <label>Toote nimi</label> <br />
       <input onChange={(e) => setProduct({...product, "title":e.target.value})} type="text" /> <br />
       <label>Toote hind</label> <br />
@@ -56,7 +94,14 @@ function AddProduct() {
       <label>Toote kirjeldus</label> <br />
       <input onChange={(e) => setProduct({...product, "description":e.target.value})} type="text" /> <br />
       <label>Toote kategooria</label> <br />
-      <input onChange={(e) => setProduct({...product, "category":e.target.value})} type="text" /> <br />
+      {/* <input onChange={(e) => setProduct({...product, "category":e.target.value})} type="text" /> <br /> */}
+      <select onChange={(e) => setProduct({...product, "category": e.target.value})} defaultValue={""}>
+        <option disabled value="">Vali kategooria!</option>
+        {categories.map(category => 
+          <option key={category.name}>
+            {category.name}
+          </option>)}
+      </select> <br />
       <label>Toote pilt</label> <br />
       <input onChange={(e) => setProduct({...product, "image":e.target.value})} type="text" /> <br />
       <label>Toote hinnang</label> <br />

@@ -1,7 +1,54 @@
+import { useEffect, useRef, useState } from "react"
+import { ToastContainer, toast } from 'react-toastify';
 
 function MaintainCategories() {
+  const [categories, setCategories] = useState([]);
+  const url = import.meta.env.VITE_CATEGORIES_DB_URL;
+  const categoryRef = useRef();
+
+  useEffect(() => {
+    fetch(url)
+      .then(res => res.json())
+      .then(json => setCategories(json || []))
+  }, [url]);
+
+  const add = () => {
+    categories.push({name: categoryRef.current.value});
+    fetch(url, {method: "PUT", body: JSON.stringify(categories)})
+      .then(res => res.json())
+      .then(json => {
+        setCategories(json || []);
+        categoryRef.current.value = "";
+      })
+  }
+
+  const deleteCategory = (index) => {
+    categories.splice(index, 1);
+    fetch(url, {method: "PUT", body: JSON.stringify(categories)})
+      .then(res => res.json())
+      .then(json => {
+        setCategories(json || []);
+        toast.success("Kategooria kustutatud");
+      })
+  }
+
   return (
-    <div>MaintainCategories</div>
+    <div>
+      <label>Kategooria</label> <br />
+      <input ref={categoryRef} type="text" /> <br />
+      <button onClick={add}>Sisesta</button> <br />
+      {categories.map((category, index) => 
+        <div key={category.name}>
+          {category.name}
+          <button onClick={() => deleteCategory(index)}>x</button>
+        </div>)}
+
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={4000}
+        theme="dark"
+      />
+    </div>
   )
 }
 
