@@ -1,11 +1,15 @@
-import React, { useRef } from 'react';
+import { FormEvent, useRef } from 'react';
 import emailjs from '@emailjs/browser';
 
 export const ContactUs = () => {
-  const form = useRef();
+  const form = useRef(null);
 
-  const sendEmail = (e) => {
+  const sendEmail = (e: FormEvent) => {
     e.preventDefault();
+
+    if (form.current === null) {
+      return;
+    }
 
     emailjs
       .sendForm('service_fum24bj', 'template_ld2lsyd', form.current, {
@@ -22,7 +26,7 @@ export const ContactUs = () => {
   };
 
   return (
-    <form ref={form} onSubmit={sendEmail}>
+    <form ref={form} onSubmit={(e) => sendEmail(e)}>
       <label>Name</label>
       <input type="text" name="from_name" />
       <label>Email</label>

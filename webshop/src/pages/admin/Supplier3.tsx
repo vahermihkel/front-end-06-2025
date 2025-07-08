@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 
 function Supplier3() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [search, setSearch] = useState("react");
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -18,7 +18,7 @@ function Supplier3() {
       })
   }, [search, page]);
 
-  const searchFromProducts = (searchValue) => {
+  const searchFromProducts = (searchValue: string) => {
     if (searchValue.length < 3) {
       return;
     }

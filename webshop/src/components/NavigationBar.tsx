@@ -8,15 +8,15 @@ import estonian from "../assets/estonian.png"
 import { useContext } from 'react';
 import { CartSumContext } from '../context/CartSumContext';
 import { AuthContext } from '../context/AuthContext';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../redux/store';
 
 function NavigationBar() {
   const { t, i18n } = useTranslation();
   const {cartSum} = useContext(CartSumContext);
   const {loggedIn, setLoggedIn} = useContext(AuthContext);
-  const count = useSelector(state => state.counter.value)
+  const count = useAppSelector(state => state.counter.value);
   
-  const changeLanguageLocal = (newLang) => {
+  const changeLanguageLocal = (newLang: string) => {
     i18n.changeLanguage(newLang);
     localStorage.setItem("language", newLang);
   }

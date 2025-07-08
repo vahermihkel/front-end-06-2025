@@ -2,13 +2,15 @@ import { useEffect, useRef, useState } from "react";
 // import productsFromFile from "../../data/products.json";
 import {Link} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import { Product } from "../../models/Product";
+import Table from 'react-bootstrap/Table';
 
 function MaintainProducts() {
-  const [products, setProducts] = useState([]);
-  const searchRef = useRef();
+  const [products, setProducts] = useState<Product[]>([]);
+  const searchRef = useRef<HTMLInputElement>(null);
   const productsUrl = import.meta.env.VITE_PRODUCTS_DB_URL;
   const [loading, setLoading] = useState(true);
-  const [dbProducts, setDbProducts] = useState([]);
+  const [dbProducts, setDbProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     fetch(productsUrl)
@@ -20,7 +22,7 @@ function MaintainProducts() {
       })
   }, [productsUrl]);
     
-  const deleteProduct = (id) => {
+  const deleteProduct = (id: number) => {
     const index = dbProducts.findIndex(product => product.id === id);
     dbProducts.splice(index,1);
     // setProducts(dbProducts.slice());
@@ -34,9 +36,13 @@ function MaintainProducts() {
   }
 
   const searchFromProducts = () => {
+    const searchInput = searchRef.current;
+    if (searchInput === null) {
+      return;
+    }
     const result = dbProducts.filter(product => 
-      product.title.toLowerCase().includes(searchRef.current.value.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchRef.current.value.toLowerCase())
+      product.title.toLowerCase().includes(searchInput.value.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchInput.value.toLowerCase())
     );
     setProducts(result);
   }
@@ -49,7 +55,7 @@ function MaintainProducts() {
     <div>
       <label>Otsi</label>
       <input onChange={searchFromProducts} ref={searchRef} type="text" />
-      <table>
+      <Table striped bordered hover>
         <thead>
           <tr>
             <th>ID</th>
@@ -69,7 +75,7 @@ function MaintainProducts() {
           <tr key={product.id}>
             <td>{product.id}</td>
             <td>{product.title}</td>
-            <td>{product.price}</td>
+            <td>{typeof product.price}</td>
             <td>{product.description}</td>
             <td>{product.category}</td>
             <td><img style={{width: "50px"}} src={product.image} alt="" /></td>
@@ -79,7 +85,7 @@ function MaintainProducts() {
             <td><Link to={"/admin/edit-product/" + product.id}><button>Muuda</button></Link></td>
           </tr>)}
         </tbody>
-      </table>
+      </Table>
 
       <ToastContainer 
           position="bottom-right"

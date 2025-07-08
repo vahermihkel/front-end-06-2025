@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
+import { Shop } from '../../models/Shop';
 
 
 function Shops() {
-  const [shops, setShops] = useState([]);
+  const [shops, setShops] = useState<Shop[]>([]);
   const url = import.meta.env.VITE_SHOPS_DB_URL;
 
   useEffect(() => {
